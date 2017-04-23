@@ -1,0 +1,50 @@
+0.  What is pneumonoultramicroscopicsilicovolcanoconiosis?
+    Pneumonoultramicroscopicsilicovolcanoconiosis is a lung disease caused by inhalation of crystalline silica dust.
+    
+1.  According to its man page, what does getrusage do?
+    The getrusage function returns resource usage measures. A constant integer value defines how these measures are calculated.
+
+2.  Per that same man page, how many members are in a variable of type struct rusage?
+    There are 16 members in the type struct rusage.
+    
+3.  Why do you think we pass before and after by reference (instead of by value) to calculate, 
+    even though we’re not changing their contents?
+    The pass by reference is meant to reduce memory costs by using the struct addresses. 
+    If instead the function passed by value, then copies of the structs would be created thereby increasing memory usage.
+    
+4.  Explain as precisely as possible, in a paragraph or more, how main goes about reading words from a file. 
+    In other words, convince us that you indeed understand how that function’s for loop works.
+    By using fopen to access the file, main begins reading the file, character-by-character, until it encounters the end of file.
+    As each character is read, via a for loop, an if block tests for three scenarios. The first scenario tests whether the 
+    character is alphabetical or an apostrophe. When true, this block appends the character into an array which will store an 
+    entire word. The second scenario tests if the character is a digit. When true, the rest of the string will be read and 
+    discarded. The third scenario tests if the index is greater than 0 (meaning a word is completely loaded in the array, 
+    usually triggered via a whitespace character). When true, this block terminates the string (\0) and runs the spell check function.
+    
+5.  Why do you think we used fgetc to read each word’s characters one at a time rather than use fscanf with a format string like 
+    "%s" to read whole words at a time? Put another way, what problems might arise by relying on fscanf alone?
+    fgetc provides more control and error checking than the format string from fscanf. If, for example, a word in the input file
+    includes a digit, fscanf will return the string and further error checking will need to take place. fgetc provides a thorough and
+    convenient way to test the file stream characters.
+
+6.  Why do you think we declared the parameters for check and load as const?
+    The const type qualifier declares the parameters in check and load as un-modifiable. This is desirable since We pass by reference
+    and do not want to accidentally alter the words during the function calls in any way.
+
+7.  What data structure(s) did you use to implement your spell-checker? Be sure not to leave your answer at just "hash table," "trie," 
+    or the like. Expound on what’s inside each of your "nodes."
+    I used a trie data structure to create a spell-checker. The trie loads each word, character-by-character, into a tree. My trie 
+    contained two members within each node of the data structure. 1. A boolean value to signal if the present location in the trie 
+    is a valid word. 2. A linked list of arrays, where each index in the array represents the 26 characters of the alphabet and an 
+    apostrophe.
+    
+8.  How slow was your code the first time you got it working correctly?
+    My code ran around .20-.25ms when first run.
+
+9.  What kinds of changes, if any, did you make to your code in order to improve its performance?
+    I shortcutted the size function calculation by including it into the load function.
+
+10. Do you feel that your code has any bottlenecks that you were not able to chip away at?
+    My code bottlenecks at the load and unload functions. Load takes the longest time. I would like to try using a hash table in the
+    future to compare the results against the trie. I anticipate that the trie is effective for much larger data sets and hashing the
+    dictionary words will be much quicker to load and unload.
